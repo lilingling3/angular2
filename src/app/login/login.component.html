@@ -1,4 +1,6 @@
 <div>
-  <input type="text">
-  <button>登录</button>
+  <input type="text" #usernameRef>
+  <input type="password" #passwordRef>
+  <!-- usernameRef 引用的是input 对象 -->
+  <button  (click)="onClick(usernameRef.value,passwordRef.value)">登录</button>
 </div>
