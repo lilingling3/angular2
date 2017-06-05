@@ -1,0 +1,5 @@
+<div class="todo-list">
+  <input type="checkbox" class="toggle" (click)="toggle()" [checked]="isChecked">
+  <label (click)="toggle()" [class.labelcompleted]="isChecked">{{todoDesc}}</label>
+  <button class="destory" (click)="remove();$event.stopPropagation()"></button>
+</div>

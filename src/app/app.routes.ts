@@ -1,11 +1,11 @@
 import { RouterModule,Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { TodoComponent } from './todo/todo.component';
+// import { TodoComponent } from './todo/todo.component';
 import { ModuleWithProviders } from '@angular/core';
 export const routes:Routes = [
   {
     path:'',
-    redirectTo:'todo',
+    redirectTo:'login',
     pathMatch:'full'
   },
   {
@@ -14,7 +14,8 @@ export const routes:Routes = [
   },
   {
     path:'todo',
-    component:TodoComponent
+    redirectTo:'todo/All'
+    //loadChildren: './todo/todoModule#TodoModule'
   }
 ];
 export const routing : ModuleWithProviders = RouterModule.forRoot(routes) ;
