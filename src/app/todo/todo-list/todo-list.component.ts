@@ -11,7 +11,7 @@ export class TodoListComponent implements OnInit {
 
   @Input()
   set todos(todos:todo[]){
-    this._todos = [...todos]
+    this._todos = [...todos];
   }
   get todos(){
     return this._todos
@@ -19,6 +19,7 @@ export class TodoListComponent implements OnInit {
 
   @Output() onRemoveTodo = new EventEmitter();
   @Output() onToggleTodo = new EventEmitter();
+  @Output() onToggleAll = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
@@ -28,5 +29,8 @@ export class TodoListComponent implements OnInit {
   }
   onRemoveTriggered(todo){
     this.onRemoveTodo.emit(true)
+  }
+  onToggleAllTriggered(){
+    this.onToggleAll.emit(true)
   }
 }

@@ -4,18 +4,31 @@ import { LoginComponent } from './login/login.component';
 import { ModuleWithProviders } from '@angular/core';
 export const routes:Routes = [
   {
-    path:'',
-    redirectTo:'login',
-    pathMatch:'full'
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
-    path:'login',
-    component:LoginComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
-    path:'todo',
-    redirectTo:'todo/All'
-    //loadChildren: './todo/todoModule#TodoModule'
+    path: 'todo',
+    redirectTo: 'todo/ALL'
   }
+  // {
+  //   path:'',
+  //   redirectTo:'todo',
+  //   pathMatch:'full'
+  // },
+  // {
+  //   path:'login',
+  //   component:LoginComponent
+  // },
+  // {
+  //   path:'todo',
+  //   redirectTo:'todo/ALL'
+  //   //loadChildren: './todo/todoModule#TodoModule'
+  // }
 ];
 export const routing : ModuleWithProviders = RouterModule.forRoot(routes) ;

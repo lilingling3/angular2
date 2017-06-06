@@ -5,8 +5,17 @@
                (textChanges)="onTextChanges($event)" (onEnterUp)="addTodo()"></todo-header>
 
   <!-- $event 反射器携带的参数 -->
-  <app-todo-list [todos]="todos" (onRemoveTodo)="removeTodo($event)"
-                 (onToggleTodo)="toggleTodo($event)"></app-todo-list>
+  <!--<app-todo-list [todos]="todos" (onToggleAll)="toggleAll()"-->
+                 <!--(onRemoveTodo)="removeTodo($event)"-->
+                 <!--(onToggleTodo)="toggleTodo($event)"></app-todo-list>-->
+
+  <app-todo-list
+    [todos]="todos"
+    (onToggleAll)="toggleAll()"
+    (onRemoveTodo)="removeTodo($event)"
+    (onToggleTodo)="toggleTodo($event)"
+  >
+  </app-todo-list>
   <!-- 传递计数器 -->
-  <todo-footer [itemCount]="todos?.length"></todo-footer>
+  <todo-footer [itemCount]="todos?.length" (onClear)="clearCompleted()"></todo-footer>
 </section>

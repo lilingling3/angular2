@@ -42,7 +42,16 @@ export class TodoService {
       .then(() => updateTodo)
       .catch(error => console.log(error))
   }
-
+  // rest 风格使用 patch请求 只提交 更改部分
+  toggleTodo(todo: todo) {
+    const url = `${this.api_url}/${todo.id}`;
+    let updatedTodo = Object.assign({}, todo, {completed: !todo.completed});
+    return this.http
+      .patch(url, JSON.stringify({completed: !todo.completed}), {headers: this.headers})
+      .toPromise()
+      .then(() => updatedTodo)
+      .catch(this.handleError);
+  }
   // get 请求 查询
   getTodos(){
     return this.http.get(this.api_url)
@@ -63,7 +72,22 @@ export class TodoService {
 
   filterTodos(filter:string){
     switch (filter){
-      case ''
+      case 'ACTIVE':return this.http
+        .get(`${this.api_url}?completed=false`)
+        .toPromise()
+        .then(res => res.json())
+        .catch(this.handleError);
+      case 'COMPLETED': return this.http
+        .get(`${this.api_url}?completed=true`)
+        .toPromise()
+        .then(res =>res.json())
+        .catch(this.handleError);
+      default :return this.getTodos();
     }
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }

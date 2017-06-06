@@ -1,4 +1,4 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit ,Input,Output,EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'todo-footer',
@@ -8,9 +8,12 @@ import { Component, OnInit ,Input} from '@angular/core';
 export class TodoFooterComponent implements OnInit {
   // 声明 itemCount 需要从父组件中传入
   @Input() itemCount:number;
+  @Output() onClear = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
   }
-
+  onClick(){
+    this.onClear.emit(true)
+  }
 }
