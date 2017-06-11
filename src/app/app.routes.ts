@@ -5,7 +5,7 @@ import { ModuleWithProviders } from '@angular/core';
 export const routes:Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'todo',
     pathMatch: 'full'
   },
   {

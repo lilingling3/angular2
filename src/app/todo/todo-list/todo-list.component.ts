@@ -9,9 +9,10 @@ import { todo } from '../todo.model';
 export class TodoListComponent implements OnInit {
   _todos:todo[] = [];
 
-  @Input()
-  set todos(todos:todo[]){
-    this._todos = [...todos];
+  @Input('todos')
+  set todos(val){
+    console.log(val);
+    this._todos = [...val];
   }
   get todos(){
     return this._todos

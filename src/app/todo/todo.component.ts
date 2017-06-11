@@ -29,6 +29,7 @@ export class TodoComponent implements OnInit {
       let filter = params['filter'];
       console.log(filter);
       this.filterTodos(filter);
+      //console.log(this.todos);
     });
   }
   onTextChanges(value){
@@ -98,7 +99,11 @@ export class TodoComponent implements OnInit {
   // }
   filterTodos(filter:string){
     this.todoService.filterTodos(filter)
-      .then(todos => this.todos = [...todos])
+      .then(todos => {
+        //console.log(todos);
+          this.todos = [...todos];
+        // console.log(this.todos);
+      })
   }
 
   toggleAll(){

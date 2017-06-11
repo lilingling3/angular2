@@ -53,11 +53,20 @@ export class TodoService {
       .catch(this.handleError);
   }
   // get 请求 查询
-  getTodos(){
+  // getTodos(){
+  //   return this.http.get(this.api_url)
+  //     .toPromise()
+  //     .then(res => {
+  //       console.log('getTodos');
+  //       console.log(res);
+  //       return res.json()})
+  //     .catch(error => console.log(error))
+  // }
+  getTodos(): Promise<todo[]>{
     return this.http.get(this.api_url)
       .toPromise()
-      .then(res => res.json())
-      .catch(error => console.log(error))
+      .then(res => res.json() as todo[])
+      .catch(this.handleError);
   }
 
   // delete 删除
@@ -70,19 +79,20 @@ export class TodoService {
       .catch(error => console.log(error))
   }
 
-  filterTodos(filter:string){
-    switch (filter){
-      case 'ACTIVE':return this.http
+  filterTodos(filter: string): Promise<todo[]> {
+    switch(filter){
+      case 'ACTIVE': return this.http
         .get(`${this.api_url}?completed=false`)
         .toPromise()
-        .then(res => res.json())
+        .then(res => res.json() as todo[])
         .catch(this.handleError);
       case 'COMPLETED': return this.http
         .get(`${this.api_url}?completed=true`)
         .toPromise()
-        .then(res =>res.json())
+        .then(res => res.json() as todo[])
         .catch(this.handleError);
-      default :return this.getTodos();
+      default:
+        return this.getTodos();
     }
   }
 
