@@ -8,8 +8,9 @@ import { Router, ActivatedRoute,Params} from '@angular/router';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  private todos;
-  private desc = '';
+  // 解决 todoList undefined 的错误
+  private todos:todo[] = [];
+  private desc :string = '';
   //private filter;
   //private filterTodos;
   constructor(
@@ -30,6 +31,7 @@ export class TodoComponent implements OnInit {
       console.log(filter);
       this.filterTodos(filter);
       //console.log(this.todos);
+      console.log('父组件')
     });
   }
   onTextChanges(value){
@@ -102,7 +104,7 @@ export class TodoComponent implements OnInit {
       .then(todos => {
         //console.log(todos);
           this.todos = [...todos];
-        // console.log(this.todos);
+         console.log(this.todos);
       })
   }
 

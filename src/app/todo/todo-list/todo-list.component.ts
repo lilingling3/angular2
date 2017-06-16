@@ -8,9 +8,10 @@ import { todo } from '../todo.model';
 })
 export class TodoListComponent implements OnInit {
   _todos:todo[] = [];
-
-  @Input('todos')
-  set todos(val){
+// 子组件 更改影响 父组件  使用 变量
+  @Input()
+  set todos(val:todo[]){
+    console.log('子组件')
     console.log(val);
     this._todos = [...val];
   }

@@ -62,12 +62,11 @@ export class TodoService {
   //       return res.json()})
   //     .catch(error => console.log(error))
   // }
-  getTodos(): Promise<todo[]>{
+    getTodos(): Promise<todo[]>{
     return this.http.get(this.api_url)
-      .toPromise()
-      .then(res => res.json() as todo[])
-      .catch(this.handleError);
-  }
+              .toPromise()
+              .then(res => res.json() as todo[])
+    }
 
   // delete 删除
   deleteTodoById(id:string){
@@ -79,18 +78,18 @@ export class TodoService {
       .catch(error => console.log(error))
   }
 
-  filterTodos(filter: string): Promise<todo[]> {
+ filterTodos(filter: string): Promise<todo[]> {
     switch(filter){
       case 'ACTIVE': return this.http
-        .get(`${this.api_url}?completed=false`)
-        .toPromise()
-        .then(res => res.json() as todo[])
-        .catch(this.handleError);
+                        .get(`${this.api_url}?completed=false`)
+                        .toPromise()
+                        .then(res => res.json() as todo[])
+                        .catch(this.handleError);
       case 'COMPLETED': return this.http
-        .get(`${this.api_url}?completed=true`)
-        .toPromise()
-        .then(res => res.json() as todo[])
-        .catch(this.handleError);
+                          .get(`${this.api_url}?completed=true`)
+                          .toPromise()
+                          .then(res => res.json() as todo[])
+                          .catch(this.handleError);
       default:
         return this.getTodos();
     }
