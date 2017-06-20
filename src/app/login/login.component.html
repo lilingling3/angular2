@@ -1,60 +1,32 @@
-<!--<div>-->
-  <!--[] 把解析式当成表达式来解析而不是当成字符串
-  如果去掉就是赋值
-  #usernameRef 加上 是因为需要在模板中使用
-  {{}} 解析括号的表达式
-  {{usernameRef.valid}} {{usernameRef.errors|json}}
-   {{passwordRef.valid}}
-  -->
-  <!--<form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">-->
-
-    <!--<fieldset ngModelGroup="login">
-      <input type="text" [(ngModel)]="username"
-             required
-             #usernameRef="ngModel"
-             minlength="3"
-             name="username" (focus)="usernameFocus()">
-      <div *ngIf="usernameRef.errors?.required">用户名必须填写</div>
-      <div *ngIf="usernameRef.errors?.minlength">至少三个字符</div>
-      <input type="password" [(ngModel)]="password"
-             required #passwordRef="ngModel"
-             name="password"  (focus)="passwordFocus()">
-      <div *ngIf="passwordRef.errors?.required">密码必须填写</div>-->
-      <!-- usernameRef 引用的是input 对象 -->
-      <!--<button  (click)="onClick()">登录</button>-->
-<!--
-      <button  type="submit">登录</button>
-    </fieldset>
-
-
-
-  </form>-->
-
-<!--</div>-->
 <div>
-  <form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
-    <fieldset ngModelGroup="login">
-      <input
-        name="username"
-        type="text"
-        [(ngModel)]="username"
-        #usernameRef="ngModel"
-        required
-        minlength="3">
-        <div *ngIf="usernameRef.errors?.required">this is required</div>
-        <div *ngIf="usernameRef.errors?.minlength">should be at least 3 charactors</div>
-        <div *ngIf="auth?.hasError">{{auth.errMsg}}</div>
-      <input
-        name="password"
-        type="password"
-        [(ngModel)]="password"
-        #passwordRef="ngModel"
-        required>
-        <div *ngIf="passwordRef.errors?.required">this is required</div>
-    </fieldset>
-    <!--
-      button type 必须是submit
-    -->
-    <button type="submit">Login</button>
+  <form (ngSubmit)="onSubmit()">
+    <mdl-textfield
+      type="text"
+      label="Username..."
+      name="username"
+      floating-label
+      required
+      [(ngModel)]="username"
+      #usernameRef="ngModel"
+      >
+    </mdl-textfield>
+    <div *ngIf="auth?.hasError" >
+      {{auth?.errMsg}}
+    </div>
+    <mdl-textfield
+      type="password"
+      label="Password..."
+      name="password"
+      floating-label
+      required
+      [(ngModel)]="password"
+      #passwordRef="ngModel">
+    </mdl-textfield>
+    <button
+      mdl-button mdl-button-type="raised"
+      mdl-colored="primary"
+      mdl-ripple type="submit">
+      Login
+    </button>
   </form>
 </div>

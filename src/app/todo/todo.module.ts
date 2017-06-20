@@ -2,9 +2,12 @@
 // CommonModule 提供常用NgIf NgFor
 // 导入 BrowserModule 自动导入 CommonModule
 import { CommonModule } from '@angular/common';
+// 引入 公共 模块
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+// import { HttpModule } from '@angular/http';
+// import { FormsModule } from '@angular/forms';
+
+import { SharedModule } from '../share/share.module';
 // import { routing } from './todo.routes';
 import { TodoRoutingModule } from './todo-routing.module';
 import { TodoHeaderComponent } from './todo-header/todo-header.component';
@@ -17,10 +20,11 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 @NgModule({
   imports:[
     CommonModule,
-    FormsModule,
-    HttpModule,
+    // FormsModule,
+    // HttpModule,
     // routing
-    TodoRoutingModule
+    TodoRoutingModule,
+    SharedModule
   ],
    declarations:[TodoComponent,TodoHeaderComponent,TodoFooterComponent, TodoItemComponent, TodoListComponent],
    providers:[TodoService]
