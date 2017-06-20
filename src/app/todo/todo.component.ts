@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { todo } from './todo.model';
+import { Todo } from '../domain/entities';
 import { TodoService } from './todo.service';
 import { Router, ActivatedRoute,Params} from '@angular/router';
 @Component({
@@ -9,7 +9,7 @@ import { Router, ActivatedRoute,Params} from '@angular/router';
 })
 export class TodoComponent implements OnInit {
   // 解决 todoList undefined 的错误
-  private todos:todo[] = [];
+  public todos:Todo[] = [];
   private desc :string = '';
   //private filter;
   //private filterTodos;
@@ -59,7 +59,7 @@ export class TodoComponent implements OnInit {
   //         t,...this.todos.slice(index+1)]
   //     })
   // }
-  toggleTodo(todo: todo): Promise<void> {
+  toggleTodo(todo: Todo): Promise<void> {
     const i = this.todos.indexOf(todo);
     return this.todoService
       .toggleTodo(todo)
@@ -72,7 +72,7 @@ export class TodoComponent implements OnInit {
         return null;
       });
   }
-  removeTodo(todo: todo): Promise<void>  {
+  removeTodo(todo: Todo): Promise<void>  {
     const i = this.todos.indexOf(todo);
     return this.todoService
       .deleteTodoById(todo.id)

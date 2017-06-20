@@ -1,5 +1,5 @@
 import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
-import { todo } from '../todo.model';
+import { Todo } from '../../domain/entities';
 
 @Component({
   selector: 'app-todo-list',
@@ -7,10 +7,10 @@ import { todo } from '../todo.model';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  _todos:todo[] = [];
+  _todos:Todo[] = [];
 // 子组件 更改影响 父组件  使用 变量
   @Input()
-  set todos(val:todo[]){
+  set todos(val:Todo[]){
     console.log('子组件')
     console.log(val);
     this._todos = [...val];

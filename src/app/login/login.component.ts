@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../core/auth.service';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+import { Auth } from '../domain/entities';
 
 @Component({
   selector: 'app-login',
@@ -7,30 +9,34 @@ import { AuthService } from '../core/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private text = 'hello';
-  private username:string;
-  private password:string;
 
-  constructor(
-    private authService : AuthService
-  ) { }
+  username = '';
+  password = '';
+  auth: Auth;
+
+  constructor(@Inject('auth') private service, private router: Router) { }
 
   ngOnInit() {
-    this.username = '请输入用户名';
-    this.password = '请输入密码';
   }
 
-  // onClick(){
-  //    console.log('result   '+ this.authService.loginWithCredentials(this.username,this.password));
-  // }
+  onSubmit(formValue){
+    console.log(formValue);
 
-  usernameFocus(){
-    this.username = ''
+    this.service
+      .loginWithCredentials(formValue.login.username, formValue.login.password)
+      .then(auth => {
+        let redirectUrl = (auth.redirectUrl === null)? '/': auth.redirectUrl;
+
+        console.log(redirectUrl);
+
+        if(!auth.hasError){
+          this.router.navigate([redirectUrl]);
+          localStorage.removeItem('redirectUrl');
+        } else {
+          // 复制一份 auth
+          this.auth = Object.assign({}, auth);
+        }
+      });
   }
-  passwordFocus(){
-    this.password = ''
-  }
-  onSubmit(value){
-    console.log(this.authService.loginWithCredentials(value.login.username,value.login.password));
-  }
+
 }
