@@ -1,38 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
-import { TodoModule } from './todo/todo.module';
-// 引入 第三方 样式库
-import { MdlModule} from 'angular2-mdl';
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryTodoService } from './todo/todo-data';
+import { MdlModule } from 'angular2-mdl';
 import { CoreModule } from './core/core.module';
-// import { routing } from './app.routes'
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { TodoModule } from './todo/todo.module';
+import { LoginModule } from './login/login.module';
 
-// import { AuthService } from './core/auth.service';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpModule,
+    MdlModule,
     CoreModule,
-    //InMemoryWebApiModule.forRoot(InMemoryTodoService),
-    // routing,
     AppRoutingModule,
-    TodoModule,
-    MdlModule
+    LoginModule,
+    TodoModule
   ],
-  // providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

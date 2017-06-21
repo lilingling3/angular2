@@ -1,19 +1,14 @@
-import { Component, OnInit ,Input,Output,EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'todo-footer',
+  selector: 'app-todo-footer',
   templateUrl: './todo-footer.component.html',
   styleUrls: ['./todo-footer.component.css']
 })
-export class TodoFooterComponent implements OnInit {
-  // 声明 itemCount 需要从父组件中传入
-  @Input() itemCount:number;
-  @Output() onClear = new EventEmitter();
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class TodoFooterComponent {
+  @Input() itemCount: number;
+  @Output() onClear = new EventEmitter<boolean>();
   onClick(){
-    this.onClear.emit(true)
+    this.onClear.emit(true);
   }
 }

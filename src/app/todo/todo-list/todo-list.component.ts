@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from '../../domain/entities';
 
 @Component({
@@ -6,33 +6,26 @@ import { Todo } from '../../domain/entities';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.css']
 })
-export class TodoListComponent implements OnInit {
-  _todos:Todo[] = [];
-// 子组件 更改影响 父组件  使用 变量
+export class TodoListComponent {
+  _todos: Todo[] = [];
   @Input()
-  set todos(val:Todo[]){
-    console.log('子组件')
-    console.log(val);
-    this._todos = [...val];
+  set todos(todos:Todo[]){
+    this._todos = [...todos];
   }
-  get todos(){
-    return this._todos
+  get todos() {
+    return this._todos;
   }
+  @Output() onRemoveTodo = new EventEmitter<Todo>();
+  @Output() onToggleTodo = new EventEmitter<Todo>();
+  @Output() onToggleAll = new EventEmitter<boolean>();
 
-  @Output() onRemoveTodo = new EventEmitter();
-  @Output() onToggleTodo = new EventEmitter();
-  @Output() onToggleAll = new EventEmitter();
-  constructor() { }
-
-  ngOnInit() {
+  onRemoveTriggered(todo: Todo) {
+    this.onRemoveTodo.emit(todo);
   }
-  onToggleTriggered(todo){
-    this.onToggleTodo.emit(true)
+  onToggleTriggered(todo: Todo) {
+    this.onToggleTodo.emit(todo);
   }
-  onRemoveTriggered(todo){
-    this.onRemoveTodo.emit(true)
-  }
-  onToggleAllTriggered(){
-    this.onToggleAll.emit(true)
+  onToggleAllTriggered() {
+    this.onToggleAll.emit(true);
   }
 }
