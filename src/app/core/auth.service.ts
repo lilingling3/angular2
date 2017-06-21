@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-
+// ReplaySubject 缓存数据 需要就会 推送给它
 import { ReplaySubject, Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import { Auth } from '../domain/entities';
@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private http: Http, @Inject('user') private userService) {
   }
   getAuth(): Observable<Auth> {
+    // 变成 观察者
     return this.subject.asObservable();
   }
   unAuth(): void {
@@ -39,7 +40,9 @@ export class AuthService {
           auth.hasError = true;
           auth.errMsg = 'password not match';
         }
+        // 对象复制
         this.auth = Object.assign({}, auth);
+        // auth 发生变化 推送出去
         this.subject.next(this.auth);
         return this.auth;
       });

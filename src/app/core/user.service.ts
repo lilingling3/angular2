@@ -16,6 +16,7 @@ export class UserService {
   getUser(userId: number): Observable<User> {
     const url = `${this.api_url}/${userId}`;
     return this.http.get(url)
+             // 采用流 式
               .map(res => res.json() as User);
   }
   findUser(username: string): Observable<User> {

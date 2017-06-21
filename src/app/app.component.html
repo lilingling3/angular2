@@ -28,5 +28,10 @@
   </mdl-layout-drawer>
   <mdl-layout-content class="content">
     <router-outlet></router-outlet>
+
+    <div id="pipe">
+      <p>{{ birthday | date }}</p>
+      <p>{{ numb | percent }}</p>
+    </div>
   </mdl-layout-content>
 </mdl-layout>

@@ -8,6 +8,8 @@ import { Auth } from './domain/entities';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  birthday =  new Date();
+  numb =  0.124;
   auth: Auth;
   title = 'Awesome Todos';
   constructor(@Inject('auth') private service, private router: Router){
@@ -15,7 +17,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.service
       .getAuth()
-      .subscribe(auth => this.auth = Object.assign({}, auth));
+      .subscribe(auth => {
+        console.log('app')
+        console.log(auth)
+        this.auth = Object.assign({}, auth);});
   }
   login() {
     this.router.navigate(['login']);
