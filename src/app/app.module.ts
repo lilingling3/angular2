@@ -6,12 +6,16 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { TodoModule } from './todo/todo.module';
 import { LoginModule } from './login/login.module';
+// 响应式 表单
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { OneDirective } from "./utils/directive/beauty.directive";
 import { BeautyDirective } from "./utils/directive/color.directive";
 import { BeautyInputDirective } from "./utils/directive/input.directive";
 import { MyUnlessDirective } from "./utils/directive/unClass.directive";
 import { AppComponent } from './app.component';
+import { AnimateComponent } from './animate/animate.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,9 @@ import { AppComponent } from './app.component';
     OneDirective,
     BeautyDirective,
     BeautyInputDirective,
-    MyUnlessDirective
+    MyUnlessDirective,
+    AnimateComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,8 @@ import { AppComponent } from './app.component';
     CoreModule,
     AppRoutingModule,
     LoginModule,
-    TodoModule
+    TodoModule,
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })
