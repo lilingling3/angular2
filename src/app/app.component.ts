@@ -8,6 +8,7 @@ import { Auth } from './domain/entities';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  boolValue:boolean = true;
   birthday =  new Date();
   numb =  0.124;
   auth: Auth;

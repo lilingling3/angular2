@@ -1,5 +1,16 @@
-<div>
-  <form (ngSubmit)="onSubmit()">
+<div
+  class="mdl-grid mdl-grid--no-spacing login-container"
+  [ngStyle]="{'background-image': 'url(' + photo + ')'}">
+  <!--
+    ngStyle 绑定动态数据  动态改变背景图片
+  -->
+  <mdl-layout-spacer
+    class="mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--hide-phone">
+  </mdl-layout-spacer>
+  <form
+    class="mdl-cell mdl-cell--3-col mdl-cell--3-col-tablet mdl-cell--4-col-phone login-form"
+    (ngSubmit)="onSubmit()"
+    >
     <mdl-textfield
       type="text"
       label="Username..."
@@ -10,9 +21,11 @@
       #usernameRef="ngModel"
       >
     </mdl-textfield>
+    <br/>
     <div *ngIf="auth?.hasError" >
-      {{auth?.errMsg}}
+      {{auth.errMsg}}
     </div>
+    <br/>
     <mdl-textfield
       type="password"
       label="Password..."
@@ -22,11 +35,22 @@
       [(ngModel)]="password"
       #passwordRef="ngModel">
     </mdl-textfield>
+    <br/>
     <button
       mdl-button mdl-button-type="raised"
       mdl-colored="primary"
-      mdl-ripple type="submit">
+      mdl-ripple type="submit"
+      [@loginState]="loginBtnState"
+      (mouseenter)="toggleLoginState(true)"
+      (mouseleave)="toggleLoginState(false)">
       Login
     </button>
+    <button
+      mdl-button
+      mdl-colored="accent"
+      (click)="register($event)">
+      Register
+    </button>
   </form>
+  <mdl-layout-spacer></mdl-layout-spacer>
 </div>
