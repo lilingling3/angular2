@@ -1,73 +1,59 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TodoService } from './todo.service';
-import { Todo } from '../domain/entities';
+
+import { AppState, Todo } from '../domain/state';
+import { Store } from '@ngrx/store';
+import {
+  FETCH_FROM_API
+} from '../actions/todo.action'
+
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
-export class TodoComponent implements OnInit {
+export class TodoComponent {
 
-  todos : Todo[] = [];
+  todos : Observable<Todo[]>;
 
   constructor(
-    @Inject('todoService') private service,
+    private service: TodoService,
     private route: ActivatedRoute,
-    private router: Router) {}
-
-  ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-      let filter = params['filter'];
-      this.filterTodos(filter);
-    });
+    private store$: Store<AppState>) {
+      const fetchData$ = this.service.getTodos()
+        .flatMap(todos => {
+          this.store$.dispatch({type: FETCH_FROM_API, payload: todos});
+          return this.store$.select('todos')
+        })
+        .startWith([]);
+      const filterData$ = this.route.params.pluck('filter')
+        .do(value => {
+          const filter = value as string;
+          this.store$.dispatch({type: filter});
+        })
+        .flatMap(_ => this.store$.select('todoFilter'));
+      this.todos = Observable.combineLatest(
+        fetchData$,
+        filterData$,
+        (todos: Todo[], filter: any) => todos.filter(filter)
+      )
+    }
+    
+  addTodo(desc: string) {
+    this.service.addTodo(desc);
   }
-  addTodo(desc: string){
-    this.service
-      .addTodo(desc)
-      .then(todo => {
-        this.todos = [...this.todos, todo];
-      });
+  toggleTodo(todo: Todo) {
+    this.service.toggleTodo(todo);
   }
-  toggleTodo(todo: Todo): Promise<void> {
-    const i = this.todos.indexOf(todo);
-    return this.service
-      .toggleTodo(todo)
-      .then(t => {
-        this.todos = [
-          ...this.todos.slice(0,i),
-          t,
-          ...this.todos.slice(i+1)
-          ];
-        return null;
-      });
-  }
-  removeTodo(todo: Todo): Promise<void>  {
-    const i = this.todos.indexOf(todo);
-    return this.service
-      .deleteTodoById(todo.id)
-      .then(()=> {
-        this.todos = [
-          ...this.todos.slice(0,i),
-          ...this.todos.slice(i+1)
-        ];
-        return null;
-      });
-  }
-  filterTodos(filter: string): void{
-    this.service
-      .filterTodos(filter)
-      .then(todos => this.todos = [...todos]);
-  }
+  removeTodo(todo: Todo) {
+    this.service.removeTodo(todo);
+  } 
   toggleAll(){
-    Promise.all(this.todos.map(todo => this.toggleTodo(todo)));
+    this.service.toggleAll();
   }
   clearCompleted(){
-    const completed_todos = this.todos.filter(todo => todo.completed === true);
-    const active_todos = this.todos.filter(todo => todo.completed === false);
-    Promise.all(
-      completed_todos.map(
-        todo => this.service.deleteTodoById(todo.id)))
-      .then(() => this.todos = [...active_todos]);
+    this.service.clearCompleted();
   }
 }

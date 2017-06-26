@@ -1,34 +1,31 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth } from './domain/entities';
+import { AuthService } from './core/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState, Auth } from './domain/state';
+import { Observable } from 'rxjs/Observable';
+import {
+  LOGOUT
+} from './actions/auth.action'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  boolValue:boolean = true;
-  birthday =  new Date();
-  numb =  0.124;
-  auth: Auth;
+export class AppComponent {
   title = 'Awesome Todos';
-  constructor(@Inject('auth') private service, private router: Router){
-  }
-  ngOnInit() {
-    this.service
-      .getAuth()
-      .subscribe(auth => {
-        console.log('app')
-        console.log(auth)
-        this.auth = Object.assign({}, auth);});
+  private auth$: Observable<Auth>;
+  constructor(
+    private store$: Store<AppState>, 
+    private router: Router){
+      this.auth$ = this.store$.select(appState => appState.auth);
   }
   login() {
     this.router.navigate(['login']);
   }
   logout(){
-    this.service.unAuth();
-    this.auth = null;
+    this.store$.dispatch({type: LOGOUT});
     this.router.navigate(['login']);
   }
 }

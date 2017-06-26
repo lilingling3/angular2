@@ -1,22 +1,19 @@
-// 有数据 定义 数据类型对象 entity
 export class Todo {
-  "id": string;
-  "desc": string;
-  "completed": boolean;
-  "userId": number
+  id?: string;
+  desc: string;
+  completed: boolean;
+  userId?: number;
 }
-
 export class User {
-  "id": number;
-  "username": string;
-  "password": string
+  id?: number;
+  username: string;
+  password: string;
 }
-
 export class Auth {
   user?: User;
   hasError: boolean;
-  errMsg: string;
-  redirectUrl: string;
+  errMsg?: string;
+  redirectUrl?: string;
 }
 export class Image {
   contentUrl: string;

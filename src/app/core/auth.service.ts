@@ -1,50 +1,74 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-// ReplaySubject 缓存数据 需要就会 推送给它
-import { ReplaySubject, Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import { Auth } from '../domain/entities';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AppState, Auth } from '../domain/state';
+import { UserService } from './user.service';
+import { Router } from '@angular/router';
+import {
+  LOGIN,
+  LOGIN_FAILED_NOT_EXISTED,
+  LOGIN_FAILED_NOT_MATCH,
+  LOGOUT,
+  REGISTER,
+  REGISTER_FAILED_EXISTED
+} from '../actions/auth.action'
 
 @Injectable()
 export class AuthService {
-  auth: Auth = {hasError: true, redirectUrl: '', errMsg: 'not logged in'};
-  subject: ReplaySubject<Auth> = new ReplaySubject<Auth>(1);
-  constructor(private http: Http, @Inject('user') private userService) {
+   
+  constructor(
+    private http: Http, 
+    private userService: UserService,
+    private store$: Store<AppState>,
+    private router: Router) {
   }
   getAuth(): Observable<Auth> {
-    // 变成 观察者
-    return this.subject.asObservable();
+    return this.store$.select(appState => appState.auth);
   }
   unAuth(): void {
-    this.auth = Object.assign(
-      {},
-      this.auth,
-      {user: null, hasError: true, redirectUrl: '', errMsg: 'not logged in'});
-    this.subject.next(this.auth);
+    this.store$.dispatch({type: LOGOUT});
   }
-  loginWithCredentials(username: string, password: string): Observable<Auth> {
-    return this.userService
+  register(username: string, password: string): void {
+    let toAddUser = {
+      username: username,
+      password: password
+    };
+    this.userService
       .findUser(username)
-      .map(user => {
-        let auth = new Auth();
+      .subscribe(user => {
+        if(user != null) 
+          this.store$.dispatch({type: REGISTER_FAILED_EXISTED});
+        else
+          this.store$.dispatch({type: REGISTER, payload: {
+            user: toAddUser,
+            hasError: false,
+            errMsg: null,
+            redirectUrl: null
+          }});
+      });
+  }
+  loginWithCredentials(username: string, password: string): void {
+    this.userService
+      .findUser(username)
+      .subscribe(user => {
         if (null === user){
-          auth.user = null;
-          auth.hasError = true;
-          auth.errMsg = 'user not found';
-        } else if (password === user.password) {
-          auth.user = user;
-          auth.hasError = false;
-          auth.errMsg = null;
-        } else {
-          auth.user = null;
-          auth.hasError = true;
-          auth.errMsg = 'password not match';
+          this.store$.dispatch({type: LOGIN_FAILED_NOT_EXISTED});
         }
-        // 对象复制
-        this.auth = Object.assign({}, auth);
-        // auth 发生变化 推送出去
-        this.subject.next(this.auth);
-        return this.auth;
+        else if(password !== user.password) {
+          this.store$.dispatch({type: LOGIN_FAILED_NOT_MATCH});
+        }
+        else{
+          this.store$.dispatch({type: LOGIN, payload: {
+            user: user,
+            hasError: false,
+            errMsg: null,
+            redirectUrl: null
+          }});
+          this.router.navigate(['todo']);
+        }
       });
   }
 }

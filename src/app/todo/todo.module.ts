@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { SharedModule } from '../share/share.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { TodoRoutingModule } from './todo-routing.module'
 
@@ -25,7 +25,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
     TodoListComponent
   ],
   providers: [
-    {provide: 'todoService', useClass: TodoService}
+    TodoService
     ],
 })
 export class TodoModule {}

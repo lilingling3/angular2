@@ -1,9 +1,6 @@
 <div
   class="mdl-grid mdl-grid--no-spacing login-container"
   [ngStyle]="{'background-image': 'url(' + photo + ')'}">
-  <!--
-    ngStyle 绑定动态数据  动态改变背景图片
-  -->
   <mdl-layout-spacer
     class="mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--hide-phone">
   </mdl-layout-spacer>
@@ -36,11 +33,6 @@
       #passwordRef="ngModel">
     </mdl-textfield>
     <br/>
-     <!--
-       [@loginState]="loginBtnState" 使用 动画
-       状态值 绑定成员变量 loginBtnState
-
-     -->
     <button
       mdl-button mdl-button-type="raised"
       mdl-colored="primary"

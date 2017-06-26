@@ -4,14 +4,15 @@
     (onEnterUp)="addTodo($event)" >
   </app-todo-header>
   <app-todo-list
-    [todos]="todos"
+    [todos]="todos | async"
     (onToggleAll)="toggleAll()"
     (onRemoveTodo)="removeTodo($event)"
     (onToggleTodo)="toggleTodo($event)"
     >
   </app-todo-list>
   <app-todo-footer
-    [itemCount]="todos?.length"
+    [itemCount]="(todos | async).length "
     (onClear)="clearCompleted()">
   </app-todo-footer>
+  {{todos.length | async}}
 </div>
